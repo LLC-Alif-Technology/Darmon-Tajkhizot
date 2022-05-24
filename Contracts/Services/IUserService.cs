@@ -10,7 +10,7 @@ namespace Contracts.Services
     public interface IUserService
     {
         Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request);
-        Task<AuthenticationResponse> RegistrationAsync(AuthenticationRequest request);
+        Task<AuthenticationResponse> RegistrationAsync(RegistrationRequest request);
         Task UpdateUserByIdAsync(Guid userId, UpdateUserRequest request);
         Task<UserProfileResponse> GetUserByIdAsync(Guid id);
     }

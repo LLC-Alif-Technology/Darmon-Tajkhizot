@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Darmon_Tajkhizot.Controllers
@@ -10,5 +11,9 @@ namespace Darmon_Tajkhizot.Controllers
     [Route("api/[controller]")]
     public class BaseController:ControllerBase
     {
+        protected Guid GetCurrentUserId()
+        {
+            return HttpContext.User.Identity is not ClaimsIdentity identity ? Guid.Empty : Guid.Parse(identity.FindFirst("id")?.Value ?? string.Empty);
+        }
     }
 }

@@ -3,15 +3,20 @@ using Contracts.Repositories;
 using Contracts.Services;
 using Entities.DataContexts;
 using LoggerService;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Repositories;
 using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text;
+using Microsoft.Extensions.Hosting;
 
 namespace Darmon_Tajkhizot.Extension
 {
@@ -35,5 +40,31 @@ namespace Darmon_Tajkhizot.Extension
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IFileService, FileService>();
         }
+
+        public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment env)
+        {
+            var jwtSettings = configuration.GetSection("JwtSettings");
+            var secretKey = env.IsDevelopment()
+                ? "Dev mode secret key"
+                : Environment.GetEnvironmentVariable("SecretKey");
+            services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtSettings.GetSection("validIssuer").Value,
+                    ValidAudience = jwtSettings.GetSection("validAudience").Value,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+                };
+            });
+        }
+
     }
 }
