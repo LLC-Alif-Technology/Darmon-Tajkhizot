@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Contracts.Repositories
@@ -16,5 +14,5 @@ namespace Contracts.Repositories
         IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges);
         Task<bool> CheckExistingByConditionAsync(Expression<Func<T, bool>> expression);
 
-    } 
+    }
 }

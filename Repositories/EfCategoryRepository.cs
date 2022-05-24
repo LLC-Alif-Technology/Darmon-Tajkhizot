@@ -1,6 +1,5 @@
 ﻿using Contracts.Repositories;
 using Entities.DataContexts;
-using Entities.DataTransferObjects;
 using Entities.DataTransferObjects.Category;
 using Entities.DataTransferObjects.Errors;
 using Entities.DataTransferObjects.Features;
@@ -10,12 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Repositories
 {
-    public class EfCategoryRepository:RepositoryBase<Category>,ICategoryRepository
+    public class EfCategoryRepository : RepositoryBase<Category>, ICategoryRepository
     {
         public EfCategoryRepository(DataContext context) : base(context)
         {
@@ -23,7 +21,7 @@ namespace Repositories
         }
 
         public async Task CreateCategory(Category category) => await CreateAsync(category);
-        public async Task<IEnumerable<CategoryResponse>> GetAllAsync(bool trackChanges) => await FindByCondition(x=>x.ParentCategoryId == null, trackChanges).Select(x => x.ToCategoryResponse()).ToListAsync();
+        public async Task<IEnumerable<CategoryResponse>> GetAllAsync(bool trackChanges) => await FindByCondition(x => x.ParentCategoryId == null, trackChanges).Select(x => x.ToCategoryResponse()).ToListAsync();
 
         public async Task<IEnumerable<Category>> GetAllCategoriesAsync(bool trackChanges) => await FindAll(trackChanges).ToListAsync();
 
@@ -60,11 +58,11 @@ namespace Repositories
             }).SingleOrDefaultAsync() ?? throw new ExceptionWithStatusCode(HttpStatusCode.NotFound, "Категория с таким Id не найдена");
 
 
-        public void GetSubCategories(Guid categoryId,IEnumerable<Category> categories,ref List<Guid> Ids)
+        public void GetSubCategories(Guid categoryId, IEnumerable<Category> categories, ref List<Guid> Ids)
         {
             var categoryIds = categories.Where(x => x.ParentCategoryId == categoryId).Select(x => x.Id).ToList();
             Ids.AddRange(categoryIds);
-            foreach(var catId in categoryIds)
+            foreach (var catId in categoryIds)
             {
                 GetSubCategories(catId, categories, ref categoryIds);
             }

@@ -12,9 +12,6 @@ using Microsoft.IdentityModel.Tokens;
 using Repositories;
 using Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Text;
 using Microsoft.Extensions.Hosting;
 
@@ -30,7 +27,7 @@ namespace Darmon_Tajkhizot.Extension
 
         public static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration) =>
             services.AddDbContext<DataContext>(optionsAction => optionsAction.UseNpgsql(configuration.GetConnectionString("PostgresCS")).UseLazyLoadingProxies(false));
-        
+
         public static void ConfigureLoggerService(this IServiceCollection services) =>
             services.AddScoped<ILoggerManager, LoggerManager>();
 

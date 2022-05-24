@@ -1,6 +1,5 @@
 ﻿using Contracts.Repositories;
 using Contracts.Services;
-using Entities.DataTransferObjects;
 using Entities.DataTransferObjects.Category;
 using Entities.DataTransferObjects.Features;
 using Entities.Enums;
@@ -16,18 +15,18 @@ namespace Services
     {
         private readonly IRepositoryManager _repositoryManager;
         private readonly IFileService _fileService;
-        public CategoryService(IRepositoryManager repositoryManager,IFileService fileService)
+        public CategoryService(IRepositoryManager repositoryManager, IFileService fileService)
         {
             _fileService = fileService;
             _repositoryManager = repositoryManager;
-          
+
         }
 
         public async Task<IEnumerable<CategoryResponse>> GetAllAsync()
         {
             var categories = await _repositoryManager.CategoryRepository.GetAllCategoriesAsync(false);
             var superCategories = categories.Where(x => x.ParentCategoryId == null).ToList();
-            foreach(var superCategory in superCategories)
+            foreach (var superCategory in superCategories)
             {
                 await GetSubCategories(superCategory, categories);
             }
@@ -37,7 +36,7 @@ namespace Services
         private static async Task GetSubCategories(Category category, IEnumerable<Category> categories)
         {
             category.SubCategories = categories.Where(x => x.ParentCategoryId == category.Id).ToList();
-            foreach(var superCategory in category.SubCategories)
+            foreach (var superCategory in category.SubCategories)
             {
                 await GetSubCategories(superCategory, categories);
             }
@@ -86,13 +85,13 @@ namespace Services
             category.Name = request.Name;
             category.ParentCategoryId = request.ParentCategoryId;
             category.IsPopular = request.IsPopular ?? category.IsPopular;
-            if(request.Image != null)
+            if (request.Image != null)
             {
                 _fileService.DeleteFile(category.ImagePath);
                 var imagePath = await _fileService.AddFileAsync(request.Image, FileTypes.Image, nameof(Category));
                 category.ImagePath = imagePath;
             }
-            if(request.Icon != null)
+            if (request.Icon != null)
             {
                 _fileService.DeleteFile(category.IconPath);
                 var iconPath = await _fileService.AddFileAsync(request.Icon, FileTypes.Icon, nameof(Category));

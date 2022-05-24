@@ -2,11 +2,7 @@
 using Entities.DataTransferObjects.User;
 using Entities.DataTransferObjects.User.JWTAuthentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Darmon_Tajkhizot.Controllers

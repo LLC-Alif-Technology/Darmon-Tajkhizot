@@ -1,8 +1,6 @@
 ﻿using Entities.DataTransferObjects.User;
 using Entities.DataTransferObjects.User.JWTAuthentication;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Contracts.Services
