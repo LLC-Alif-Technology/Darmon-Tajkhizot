@@ -15,6 +15,10 @@ namespace Darmon_Tajkhizot.Controllers
     public class UserController : BaseController
     {
         private readonly IUserService _userService;
+        public UserController(IUserService userService)
+        {
+            _userService = userService;
+        }
 
         [HttpPost("/api/registration")]
         public async Task<IActionResult> Registration(RegistrationRequest request)

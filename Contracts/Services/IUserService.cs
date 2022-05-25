@@ -13,5 +13,6 @@ namespace Contracts.Services
         Task<AuthenticationResponse> RegistrationAsync(RegistrationRequest request);
         Task UpdateUserByIdAsync(Guid userId, UpdateUserRequest request);
         Task<UserProfileResponse> GetUserByIdAsync(Guid id);
+
     }
 }
