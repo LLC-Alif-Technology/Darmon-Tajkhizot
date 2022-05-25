@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Entities.DataTransferObjects.User.JWTAuthentication
 {
@@ -10,7 +7,7 @@ namespace Entities.DataTransferObjects.User.JWTAuthentication
         [Required, EmailAddress]
         public string Email { get; set; }
 
-        [Required,Phone]
+        [Required, Phone]
         public string PhoneNumber { get; set; }
 
         [Required]

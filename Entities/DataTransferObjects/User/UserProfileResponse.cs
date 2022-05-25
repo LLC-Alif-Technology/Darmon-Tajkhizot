@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Entities.DataTransferObjects.User
+﻿namespace Entities.DataTransferObjects.User
 {
     public class UserProfileResponse
     {
