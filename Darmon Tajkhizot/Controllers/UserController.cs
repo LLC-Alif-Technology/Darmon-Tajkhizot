@@ -2,11 +2,7 @@
 using Entities.DataTransferObjects.User;
 using Entities.DataTransferObjects.User.JWTAuthentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Darmon_Tajkhizot.Controllers
@@ -43,6 +39,45 @@ namespace Darmon_Tajkhizot.Controllers
         {
             var currentUserId = GetCurrentUserId();
             return Ok(await _userService.GetUserByIdAsync(currentUserId));
+        }
+
+        /// <summary>
+        ///     Send(request) a password restoration token to the given email.
+        /// </summary>
+        /// <response code="404">If user not found</response>
+        [AllowAnonymous]
+        [HttpPost("send-reset-request")]
+        public async Task<IActionResult> SendResetPasswordRequestAsync(string email, string backUrl)
+        {
+            await _userService.SendResetPasswordRequestAsync(email, backUrl);
+            return Ok();
+        }
+
+        /// <summary>
+        ///     Validate that the token is indeed, same with the sent (email)
+        ///     First need to request the token.
+        /// </summary>
+        /// <response code="404">If user or token not found</response>
+        /// <response code="401">Token is invalid</response>
+        [AllowAnonymous]
+        [HttpPost("validate-reset-request")]
+        public async Task<ActionResult> ValidateResetRequestAsync(string email, string token)
+        {
+            return Ok(await _userService.ValidateRestorationTokenAsync(email, token));
+        }
+
+        /// <summary>
+        ///     Change user password.
+        ///     First need to validate restoration token
+        /// </summary>
+        /// <response code="404">User with the given email not found</response>
+        /// <response code="401">Restoration request not found (was not requested or used)</response>
+        [AllowAnonymous]
+        [HttpPut("change-password")]
+        public async Task ChangeUserPasswordAsync(UserPasswordResetDto request)
+        {
+            await _userService.ChangePasswordAsync(request);
+            return Ok();
         }
     }
 }

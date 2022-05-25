@@ -1,7 +1,5 @@
 ﻿using Entities.Helpers;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Entities.DataTransferObjects.User.JWTAuthentication
 {
@@ -15,7 +13,7 @@ namespace Entities.DataTransferObjects.User.JWTAuthentication
         public string PhoneNumber { get; set; }
         public string Token { get; set; }
 
-        public AuthenticationResponse(Entities.Models.User user,string token)
+        public AuthenticationResponse(Entities.Models.User user, string token)
         {
             Id = user.Id;
             Email = user.Email;

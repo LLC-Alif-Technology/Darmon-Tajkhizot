@@ -2,12 +2,11 @@
 using Entities.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Contracts.Repositories
 {
-    public interface IUserRepository:IRepositoryBase<User>
+    public interface IUserRepository : IRepositoryBase<User>
     {
         Task AddUserAsync(User user);
         Task<List<GetAllUsersResponse>> GetAllUsersAsync(bool trackChanges);
