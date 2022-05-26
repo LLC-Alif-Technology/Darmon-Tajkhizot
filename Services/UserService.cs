@@ -28,7 +28,9 @@ namespace Services
         public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request)
         {
             var user = await _repositoryManager.UserRepository.GetUserByEmailAsync(request.Email, false);
-            if (user == null) throw new ExceptionWithStatusCode(HttpStatusCode.NotFound, "Пользователь не найден");
+            if (user == null)
+                throw new ExceptionWithStatusCode(HttpStatusCode.NotFound, "Пользователь не найден");
+
             if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash)) throw new ExceptionWithStatusCode(HttpStatusCode.Conflict, "Пароли не совпадают");
             var token = _configuration.GenerateJwtToken(user);
             var response = new AuthenticationResponse(user, token);
@@ -70,9 +72,12 @@ namespace Services
             user.PhoneNumber = request.PhoneNumber ?? user.PhoneNumber;
             user.FirstName = request.Name ?? user.FirstName;
             user.LastName = request.LastName ?? user.LastName;
+            //user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
             user.PasswordHash = string.IsNullOrEmpty(request.OldPassword)
                 || string.IsNullOrEmpty(request.OldPassword) || BCrypt.Net.BCrypt.Verify(request.OldPassword, user.PasswordHash)
                 ? user.PasswordHash : BCrypt.Net.BCrypt.HashPassword(request.Password);
+
+
             await _repositoryManager.SaveAsync();
         }
 
@@ -80,7 +85,7 @@ namespace Services
         private async Task SavePasswordRestorationTokenAsync(string email, string token)
         {
             // If already exists delete it
-            var dbToken = await _repositoryManager.RestorationTokenRepository.GetRestorationTokenByEmail(email,false);
+            var dbToken = await _repositoryManager.RestorationTokenRepository.GetRestorationTokenByEmail(email,true);
             if (dbToken != null)
                 _repositoryManager.RestorationTokenRepository.Delete(dbToken);
 
@@ -111,7 +116,7 @@ namespace Services
         /// </summary>
         public async Task ChangePasswordAsync(UserPasswordResetRequest request)
         {
-            var user = await _repositoryManager.UserRepository.GetUserByEmailAsync(request.Email, false);
+            var user = await _repositoryManager.UserRepository.GetUserByEmailAsync(request.Email, true);
 
             var token = await GetPasswordRestorationTokenAsync(request.Email);
 
@@ -122,7 +127,14 @@ namespace Services
             _repositoryManager.RestorationTokenRepository.Delete(token);
 
             // Change the password and save the changes.
-            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+            await UpdateUserByIdAsync(user.Id, new UpdateUserRequest() {
+                Address = user.Address, 
+                Email = user.Email, 
+                LastName = user.LastName,
+                Name = user.FirstName,
+                Password = BCrypt.Net.BCrypt.HashPassword(request.Password),
+                PhoneNumber = user.PhoneNumber
+            });
             await _repositoryManager.SaveAsync();
         }
 
@@ -139,8 +151,6 @@ namespace Services
         // (that was sent by email)
         public async Task<bool> ValidateRestorationTokenAsync(string email, string token)
         {
-            if (!!await _repositoryManager.UserRepository.ExistsByEmail(email))
-                throw new ExceptionWithStatusCode(HttpStatusCode.NotFound, "Такой почты не существует");
             // Get the stored token.
             var storedToken = await GetPasswordRestorationTokenAsync(email);
 

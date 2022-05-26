@@ -19,8 +19,7 @@ namespace Repositories
 
         }
 
-        public async Task<RestorationToken> GetRestorationTokenByEmail(string email, bool trackChanges) => await Context.RestorationTokens.Where(x => x.Email.Equals(email)).FirstOrDefaultAsync() ??
-            throw new ExceptionWithStatusCode(HttpStatusCode.NotFound, "Не найдена почта");
+        public async Task<RestorationToken> GetRestorationTokenByEmail(string email, bool trackChanges) => await Context.RestorationTokens.Where(x => x.Email.Equals(email)).FirstOrDefaultAsync();
 
     }
 }

@@ -36,7 +36,7 @@ namespace Repositories
                 RoleName = EnumHelper.GetEnumDescription(x.RoleId)
             }).ToListAsync();
 
-        public async Task<User> GetUserByEmailAsync(string email, bool trackChanges) => await FindByCondition(x => x.Email.Equals(email), trackChanges).SingleOrDefaultAsync() ??
+        public async Task<User> GetUserByEmailAsync(string email, bool trackChanges) => await FindByCondition(x => x.Email.Equals(email), trackChanges).FirstOrDefaultAsync() ??
             throw new ExceptionWithStatusCode(HttpStatusCode.NotFound, "Пользователь с такой почтой не найден");
 
 
