@@ -21,6 +21,9 @@ namespace Repositories
         }
         public async Task AddUserAsync(User user) => await CreateAsync(user);
 
+        public async Task<bool> ExistsByEmail(string email) => await FindByCondition(x => x.Email.Equals(email), false).AsNoTracking().AnyAsync();
+
+
         public async Task<List<GetAllUsersResponse>> GetAllUsersAsync(bool trackChanges) => await FindAll(trackChanges)
             .Select(x => new GetAllUsersResponse
             {

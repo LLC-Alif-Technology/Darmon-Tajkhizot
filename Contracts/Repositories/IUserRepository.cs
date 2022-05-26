@@ -15,5 +15,6 @@ namespace Contracts.Repositories
         Task<User> GetUserByEmailAsync(string email, bool trackChanges);
         Task<UserResponse> GetUserResponseByEmailAsync(string email, bool trackChanges);
         Task<UserProfileResponse> GetUserProfileByIdAsync(Guid id, bool trackChanges);
+        Task<bool> ExistsByEmail(string email);
     }
 }

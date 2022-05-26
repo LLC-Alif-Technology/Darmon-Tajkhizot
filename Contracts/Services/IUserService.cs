@@ -1,5 +1,6 @@
 ﻿using Entities.DataTransferObjects.User;
 using Entities.DataTransferObjects.User.JWTAuthentication;
+using Entities.Models;
 using System;
 using System.Threading.Tasks;
 
@@ -11,5 +12,8 @@ namespace Contracts.Services
         Task<AuthenticationResponse> RegistrationAsync(RegistrationRequest request);
         Task UpdateUserByIdAsync(Guid userId, UpdateUserRequest request);
         Task<UserProfileResponse> GetUserByIdAsync(Guid id);
+        Task SendResetPasswordRequestAsync(string email, string backUrl);
+        Task<bool> ValidateRestorationTokenAsync(string email, string token);
+        Task ChangePasswordAsync(UserPasswordResetRequest request);
     }
 }

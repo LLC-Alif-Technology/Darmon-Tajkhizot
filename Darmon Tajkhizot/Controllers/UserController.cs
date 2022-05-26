@@ -78,7 +78,7 @@ namespace Darmon_Tajkhizot.Controllers
         /// <response code="401">Restoration request not found (was not requested or used)</response>
         [AllowAnonymous]
         [HttpPut("change-password")]
-        public async Task ChangeUserPasswordAsync(UserPasswordResetDto request)
+        public async Task<IActionResult> ChangeUserPasswordAsync(UserPasswordResetRequest request)
         {
             await _userService.ChangePasswordAsync(request);
             return Ok();

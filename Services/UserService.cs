@@ -80,12 +80,12 @@ namespace Services
         private async Task SavePasswordRestorationTokenAsync(string email, string token)
         {
             // If already exists delete it
-            var dbToken = await GetRestorationTokenByEmailAsync(email);
+            var dbToken = await _repositoryManager.RestorationTokenRepository.GetRestorationTokenByEmail(email,false);
             if (dbToken != null)
-                _db.RestorationTokens.Remove(dbToken);
+                _repositoryManager.RestorationTokenRepository.Delete(dbToken);
 
-            await _db.RestorationTokens.AddAsync(new RestorationToken(email, token));
-            await _db.SaveChangesAsync();
+            await _repositoryManager.RestorationTokenRepository.CreateAsync(new RestorationToken(email, token));
+            await _repositoryManager.SaveAsync();
         }
 
         public async Task SendResetPasswordRequestAsync(string email, string backUrl)
@@ -99,9 +99,9 @@ namespace Services
             await SavePasswordRestorationTokenAsync(email, token);
         }
 
-        private async Task<RestorationToken> GetRestorationTokenByEmailAsync(string email)
+        private async Task<RestorationToken> GetRestorationTokenByEmailAsync(string email, bool trackChanges)
         {
-            return await _db.RestorationTokens.SingleOrDefaultAsync(x => x.Email == email);
+            return await _repositoryManager.RestorationTokenRepository.GetRestorationTokenByEmail(email, false);
         }
 
         /// <summary>
@@ -109,30 +109,28 @@ namespace Services
         ///     the new password is given with the request (in the place of the actual password)
         ///     this is secured(verified) by the GetPasswordRestorationToken method and token.IsVerified
         /// </summary>
-        public async Task<UserInfo> ChangePasswordAsync(UserPasswordResetDto request)
+        public async Task ChangePasswordAsync(UserPasswordResetRequest request)
         {
-            var user = await FindByEmailAsync(request.Email);
+            var user = await _repositoryManager.UserRepository.GetUserByEmailAsync(request.Email, false);
 
             var token = await GetPasswordRestorationTokenAsync(request.Email);
 
             if (!token.IsVerified)
-                throw new UnauthorizedResponse(ErrorMessages.TokenNotVerified);
+                throw new ExceptionWithStatusCode(HttpStatusCode.Unauthorized, "Не авторизован");
 
             // Remove the restoration token
-            _db.RestorationTokens.Remove(token);
+            _repositoryManager.RestorationTokenRepository.Delete(token);
 
             // Change the password and save the changes.
-            user.AssignPassword(request.Password);
-            await _db.SaveChangesAsync();
-
-            return user.ToUserInfo();
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+            await _repositoryManager.SaveAsync();
         }
 
 
         // Get the restoration token that, was saved (when requesting restoration)
         private async Task<RestorationToken> GetPasswordRestorationTokenAsync(string email)
         {
-            var token = await GetRestorationTokenByEmailAsync(email);
+            var token = await GetRestorationTokenByEmailAsync(email, false);
 
             return token;
         }
@@ -141,11 +139,13 @@ namespace Services
         // (that was sent by email)
         public async Task<bool> ValidateRestorationTokenAsync(string email, string token)
         {
+            if (!!await _repositoryManager.UserRepository.ExistsByEmail(email))
+                throw new ExceptionWithStatusCode(HttpStatusCode.NotFound, "Такой почты не существует");
             // Get the stored token.
             var storedToken = await GetPasswordRestorationTokenAsync(email);
 
             storedToken.IsVerified = true;
-            await _db.SaveChangesAsync();
+            await _repositoryManager.SaveAsync();
 
             return true;
         }

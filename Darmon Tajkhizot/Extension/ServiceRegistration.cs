@@ -34,6 +34,7 @@ namespace Darmon_Tajkhizot.Extension
         public static void ConfigureDIs(this IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IRepositoryManager, RepositoryManager>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IFileService, FileService>();
