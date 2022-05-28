@@ -37,6 +37,13 @@ namespace Darmon_Tajkhizot.Controllers
                 return NotFound();
             return Ok(deletedBannerId);
         }
+
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> Update(Guid id, UpdateBannerRequest request)
+        {
+            await _bannerService.UpdateAsync(id,request);
+            return NoContent();
+        }
     } 
 }
 

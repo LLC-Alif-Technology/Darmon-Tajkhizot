@@ -11,5 +11,6 @@ namespace Contracts.Services
         Task<Guid> CreateAsync(CreateBannerRequest request);
         Task<Guid> DeleteByIdAsync(Guid id);
         Task<List<BannerResponse>> GetAllAsync();
+        Task UpdateAsync(Guid id, UpdateBannerRequest request);
     }
 }

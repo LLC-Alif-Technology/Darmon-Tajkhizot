@@ -43,8 +43,8 @@ namespace Services
         public async Task<Guid> DeleteByIdAsync(Guid id)
         {
             var banner = await _repositoryManager.BannerRepository.GetByIdAsync(id, false);
-            _fileService.DeleteFile(banner.ImagePath);
             _repositoryManager.BannerRepository.Delete(banner);
+            _fileService.DeleteFile(banner.ImagePath);
             await _repositoryManager.SaveAsync();
             return banner.Id;
         }
@@ -52,6 +52,20 @@ namespace Services
         public async Task<List<BannerResponse>> GetAllAsync()
         {
             return await _repositoryManager.BannerRepository.GetAllBannerAsync(false);
+        }
+
+        public async Task UpdateAsync(Guid id, UpdateBannerRequest request)
+        {
+            var banner = await _repositoryManager.BannerRepository.GetByIdAsync(id, false);
+            banner.Href = request.Href;
+            if(request.Image != null)
+            {
+                _fileService.DeleteFile(banner.ImagePath);
+                var imagePath = await _fileService.AddFileAsync(request.Image, FileTypes.Image, nameof(Banner));
+                banner.ImagePath = imagePath;
+            }
+            _repositoryManager.BannerRepository.Update(banner);
+            await _repositoryManager.SaveAsync();
         }
     }
 }
