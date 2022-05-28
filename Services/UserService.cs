@@ -44,6 +44,9 @@ namespace Services
 
         public async Task<AuthenticationResponse> RegistrationAsync(RegistrationRequest request)
         {
+            var userEmail = await _repositoryManager.UserRepository.GetUserByEmailAsync(request.Email, false);
+            if (userEmail != null)
+                throw new ExceptionWithStatusCode(HttpStatusCode.NotFound, "Такой Email уже имеется в базе!");
             var user = new User
             {
                 Id = Guid.NewGuid(),
@@ -72,10 +75,9 @@ namespace Services
             user.PhoneNumber = request.PhoneNumber ?? user.PhoneNumber;
             user.FirstName = request.Name ?? user.FirstName;
             user.LastName = request.LastName ?? user.LastName;
-            //user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
-            user.PasswordHash = string.IsNullOrEmpty(request.OldPassword)
-                || string.IsNullOrEmpty(request.OldPassword) || BCrypt.Net.BCrypt.Verify(request.OldPassword, user.PasswordHash)
-                ? user.PasswordHash : BCrypt.Net.BCrypt.HashPassword(request.Password);
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+            //user.PasswordHash = string.IsNullOrEmpty(request.OldPassword) || BCrypt.Net.BCrypt.Verify(request.OldPassword, user.PasswordHash)
+            //    ? user.PasswordHash : BCrypt.Net.BCrypt.HashPassword(request.Password);
 
 
             await _repositoryManager.SaveAsync();
@@ -132,7 +134,8 @@ namespace Services
                 Email = user.Email, 
                 LastName = user.LastName,
                 Name = user.FirstName,
-                Password = BCrypt.Net.BCrypt.HashPassword(request.Password),
+                //Password = BCrypt.Net.BCrypt.HashPassword(request.Password),
+                Password = request.Password,
                 PhoneNumber = user.PhoneNumber
             });
             await _repositoryManager.SaveAsync();

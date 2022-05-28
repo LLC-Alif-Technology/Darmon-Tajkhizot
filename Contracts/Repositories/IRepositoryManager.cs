@@ -7,6 +7,7 @@ namespace Contracts.Repositories
         ICategoryRepository CategoryRepository { get; }
         IUserRepository UserRepository { get; }
         IRestorationTokenRepository RestorationTokenRepository { get; }
+        IBannerRepository BannerRepository { get; }
         Task SaveAsync();
     }
 }

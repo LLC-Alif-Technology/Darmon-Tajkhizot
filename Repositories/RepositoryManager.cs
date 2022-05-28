@@ -14,10 +14,12 @@ namespace Repositories
         public ICategoryRepository _categoryRepository;
         public IUserRepository _userRepository;
         public IRestorationTokenRepository _restorationRepository;
+        public IBannerRepository _bannerRepository;
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();
 
         public ICategoryRepository CategoryRepository => _categoryRepository ??= new EfCategoryRepository(_context);
+        public IBannerRepository BannerRepository => _bannerRepository ??= new EfBannerRepository(_context);
         public IUserRepository UserRepository => _userRepository ??= new EfUserRepository(_context);
         public IRestorationTokenRepository RestorationTokenRepository => _restorationRepository ??= new EfRestorationTokenRepository(_context);
 

@@ -36,11 +36,10 @@ namespace Repositories
                 RoleName = EnumHelper.GetEnumDescription(x.RoleId)
             }).ToListAsync();
 
-        public async Task<User> GetUserByEmailAsync(string email, bool trackChanges) => await FindByCondition(x => x.Email.Equals(email), trackChanges).FirstOrDefaultAsync() ??
-            throw new ExceptionWithStatusCode(HttpStatusCode.NotFound, "Пользователь с такой почтой не найден");
+        public async Task<User> GetUserByEmailAsync(string email, bool trackChanges) => await FindByCondition(x => x.Email.Equals(email), trackChanges).FirstOrDefaultAsync();
 
 
-        public async Task<User> GetUserByIdAsync(Guid id, bool trackChanges) => await FindByCondition(x => x.Id.Equals(id), trackChanges).SingleOrDefaultAsync()
+        public async Task<User> GetUserByIdAsync(Guid id, bool trackChanges) => await FindByCondition(x => x.Id.Equals(id), trackChanges).FirstOrDefaultAsync()
             ?? throw new ExceptionWithStatusCode(HttpStatusCode.NotFound, "Пользователь с таким Id не найден");
 
         public async Task<UserProfileResponse> GetUserProfileByIdAsync(Guid id, bool trackChanges) =>
