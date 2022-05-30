@@ -15,6 +15,7 @@ namespace Repositories
         public IUserRepository _userRepository;
         public IRestorationTokenRepository _restorationRepository;
         public IBannerRepository _bannerRepository;
+        public IProductRepository _productRepository;
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();
 
@@ -22,6 +23,7 @@ namespace Repositories
         public IBannerRepository BannerRepository => _bannerRepository ??= new EfBannerRepository(_context);
         public IUserRepository UserRepository => _userRepository ??= new EfUserRepository(_context);
         public IRestorationTokenRepository RestorationTokenRepository => _restorationRepository ??= new EfRestorationTokenRepository(_context);
+        public IProductRepository ProductRepository => _productRepository ??= new EfProductRepository(_context);
 
     }
 }
