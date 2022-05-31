@@ -20,7 +20,14 @@ namespace Darmon_Tajkhizot.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] CreateBannerRequest request)
         {
-            return Created("banners", await _bannerService.CreateAsync(request));
+            try
+            {
+                return Created("banners", await _bannerService.CreateAsync(request));
+            } catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
         }
 
         [HttpGet]

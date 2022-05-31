@@ -27,6 +27,10 @@ namespace Services
         }
         public async Task<Guid> CreateAsync(CreateBannerRequest request)
         {
+            var count = (await GetAllAsync()).Count;
+            if (count > 10) {
+                throw new Exception("Too many banners");
+            }
             var banner = new Banner
             {
                 Id = Guid.NewGuid(),
@@ -37,6 +41,7 @@ namespace Services
                 banner.ImagePath = await _fileService.AddFileAsync(request.Image, FileTypes.Image, nameof(Banner));
             await _repositoryManager.BannerRepository.CreateAsync(banner);
             await _repositoryManager.SaveAsync();
+
             return banner.Id;
         }
 
