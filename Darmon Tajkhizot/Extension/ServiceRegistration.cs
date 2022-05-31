@@ -36,6 +36,7 @@ namespace Darmon_Tajkhizot.Extension
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IBannerService, BannerService>();
+            services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IRepositoryManager, RepositoryManager>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IFileService, FileService>();

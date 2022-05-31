@@ -17,16 +17,22 @@ namespace Darmon_Tajkhizot.Controllers
             _productService = productService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
-        {
-            return Ok(await _productService.GetAllAsync());
-        }
+        //[HttpGet]
+        //public async Task<IActionResult> GetAllAsync()
+        //{
+        //    return Ok(await _productService.GetAllAsync());
+        //}
 
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] CreateProductRequest request)
         {
             return Created("products", await _productService.CreateAsync(request));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllAsync(int? pageindex, int pagesize)
+        {
+            return Ok(await _productService.GetAllAsync(pageindex, pagesize));
         }
 
     }

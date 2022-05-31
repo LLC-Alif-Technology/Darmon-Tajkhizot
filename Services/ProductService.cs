@@ -44,13 +44,12 @@ namespace Services
         {
             return await _repositoryManager.ProductRepository.GetAllAsync(false);
         }
-        //public async Task<List<GetAllProductsResponse>> GetAllAsync(int? pageNumber)
-        //{
-        //    var products = await _repositoryManager.ProductRepository.GetAllAsync(false);
-        //    int pageSize = 5;
-        //    products = PaginatedList<GetAllProductsResponse>.Create(products.AsQueryable(), pageNumber ?? 1, pageSize);
-        //    return products;
-        //}
+        public async Task<List<GetAllProductsResponse>> GetAllAsync(int? pageNumber, int pagesize)
+        {
+            var products = await _repositoryManager.ProductRepository.GetAllAsync(false);
+            products = PaginatedList<GetAllProductsResponse>.Create(products.AsQueryable(), pageNumber ?? 1, pagesize);
+            return products;
+        }
 
     }
 }
