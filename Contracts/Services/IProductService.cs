@@ -10,5 +10,6 @@ namespace Contracts.Services
     {
         //Task<List<GetAllProductsResponse>> GetAllAsync(int? pageNumber);
         Task<List<GetAllProductsResponse>> GetAllAsync();
+        Task<Guid> CreateAsync(CreateProductRequest request);
     }
 }

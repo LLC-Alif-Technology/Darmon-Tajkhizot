@@ -1,4 +1,5 @@
 ﻿using Contracts.Services;
+using Entities.DataTransferObjects.Product;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,5 +22,12 @@ namespace Darmon_Tajkhizot.Controllers
         {
             return Ok(await _productService.GetAllAsync());
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromForm] CreateProductRequest request)
+        {
+            return Created("products", await _productService.CreateAsync(request));
+        }
+
     }
 }

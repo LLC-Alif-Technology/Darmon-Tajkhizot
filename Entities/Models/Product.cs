@@ -14,10 +14,11 @@ namespace Entities.Models
         public int Quantity { get; set; }
         public double? Discount { get; set; }
         public string Description { get; set; }
+        public string ImagePath { get; set; }
         public string VendorCode { get; set; }
         public Guid CategoryId { get; set; }
         public DateTime CreateAt { get; set; }
         public virtual Category Category { get; set; }
-        public virtual IEnumerable<ProductImage> ProductImages { get; set; }
+        //public virtual IEnumerable<ProductImage> ProductImages { get; set; }
     }
 }

@@ -29,7 +29,8 @@ namespace Repositories
             Description = x.Description,
             Quantity = x.Quantity,
             VendorCode = x.VendorCode,
-            ImagePath = x.ProductImages.Select(productImage => productImage.ImagePath).FirstOrDefault()
+            ImagePath = x.ImagePath
+            //ImagePath = x.ProductImages.Select(productImage => productImage.ImagePath).FirstOrDefault()
         }).ToListAsync();
 
 
