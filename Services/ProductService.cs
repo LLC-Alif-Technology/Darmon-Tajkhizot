@@ -40,13 +40,13 @@ namespace Services
             return product.Id;
         }
 
-        public async Task<List<GetAllProductsResponse>> GetAllAsync()
+        //public async Task<List<GetAllProductsResponse>> GetAllAsync(string searchString)
+        //{
+        //    return await _repositoryManager.ProductRepository.GetAllAsync(false, searchString);
+        //}
+        public async Task<List<GetAllProductsResponse>> GetAllAsync(string searchString, int? pageNumber, int pagesize)
         {
-            return await _repositoryManager.ProductRepository.GetAllAsync(false);
-        }
-        public async Task<List<GetAllProductsResponse>> GetAllAsync(int? pageNumber, int pagesize)
-        {
-            var products = await _repositoryManager.ProductRepository.GetAllAsync(false);
+            var products = await _repositoryManager.ProductRepository.GetAllAsync(false,searchString);
             products = PaginatedList<GetAllProductsResponse>.Create(products.AsQueryable(), pageNumber ?? 1, pagesize);
             return products;
         }

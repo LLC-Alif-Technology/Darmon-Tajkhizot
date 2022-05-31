@@ -8,8 +8,8 @@ namespace Contracts.Services
 {
     public interface IProductService
     {
-        Task<List<GetAllProductsResponse>> GetAllAsync(int? pageNumber, int pagesize);
-        Task<List<GetAllProductsResponse>> GetAllAsync();
+        Task<List<GetAllProductsResponse>> GetAllAsync(string searchString, int? pageNumber, int pagesize);
+        //Task<List<GetAllProductsResponse>> GetAllAsync();
         Task<Guid> CreateAsync(CreateProductRequest request);
     }
 }

@@ -20,7 +20,7 @@ namespace Repositories
         {
             _context = context;
         }
-        public async Task<List<GetAllProductsResponse>> GetAllAsync(bool trackChanges) => await FindAll(trackChanges).Select(x => new GetAllProductsResponse()
+        public async Task<List<GetAllProductsResponse>> GetAllAsync(bool trackChanges, string searchString) => await FindAll(trackChanges).Where(x => string.IsNullOrWhiteSpace(searchString) || x.Name.Contains(searchString)).Select(x => new GetAllProductsResponse()
         {
             Id = x.Id,
             Name = x.Name,

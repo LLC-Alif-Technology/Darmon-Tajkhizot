@@ -9,7 +9,7 @@ namespace Contracts.Repositories
 {
     public interface IProductRepository:IRepositoryBase<Product>
     {
-        Task<List<GetAllProductsResponse>> GetAllAsync(bool trackChanges);
+        Task<List<GetAllProductsResponse>> GetAllAsync(bool trackChanges, string searchString);
         Task<Product> GetByIdAsync(Guid id, bool trackChanges);
     }
 }

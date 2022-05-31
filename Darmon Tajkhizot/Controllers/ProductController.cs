@@ -30,9 +30,9 @@ namespace Darmon_Tajkhizot.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync(int? pageindex, int pagesize)
+        public async Task<IActionResult> GetAllAsync(string searchString, int? pageindex, int pagesize)
         {
-            return Ok(await _productService.GetAllAsync(pageindex, pagesize));
+            return Ok(await _productService.GetAllAsync(searchString, pageindex, pagesize));
         }
 
     }
