@@ -11,5 +11,6 @@ namespace Contracts.Services
         Task<List<GetAllProductsResponse>> GetAllAsync(string searchString, int? pageNumber, int pagesize);
         //Task<List<GetAllProductsResponse>> GetAllAsync();
         Task<Guid> CreateAsync(CreateProductRequest request);
+        Task DeleteProductAsync(Guid productId);
     }
 }

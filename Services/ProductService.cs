@@ -40,6 +40,13 @@ namespace Services
             return product.Id;
         }
 
+        public async Task DeleteProductAsync(Guid productId)
+        {
+            var product = await _repositoryManager.ProductRepository.GetByIdAsync(productId, false);
+            _repositoryManager.ProductRepository.Delete(product);
+            await _repositoryManager.SaveAsync();
+        }
+
         //public async Task<List<GetAllProductsResponse>> GetAllAsync(string searchString)
         //{
         //    return await _repositoryManager.ProductRepository.GetAllAsync(false, searchString);

@@ -10,6 +10,7 @@ using System.Net;
 using Entities.Helpers;
 using Entities.Models;
 using Entities.Enums;
+using System.Collections.Generic;
 
 namespace Services
 {
@@ -163,5 +164,9 @@ namespace Services
             return true;
         }
 
+        public async Task<IEnumerable<GetAllUsersResponse>> GetAllAsync()
+        {
+            return await _repositoryManager.UserRepository.GetAllUsersAsync(false);
+        }
     }
 }

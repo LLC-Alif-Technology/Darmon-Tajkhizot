@@ -1,6 +1,9 @@
 ﻿using Contracts.Services;
 using Entities.DataTransferObjects.User;
 using Entities.DataTransferObjects.User.JWTAuthentication;
+using Entities.Enums;
+using Entities.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -43,6 +46,13 @@ namespace Darmon_Tajkhizot.Controllers
         {
             var currentUserId = GetCurrentUserId();
             return Ok(await _userService.GetUserByIdAsync(currentUserId));
+        }
+
+        [HttpGet("users")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = nameof(Roles.Admin) + ", "+ nameof(Roles.Manager))]
+        public async Task<IActionResult> GetUsers()
+        {
+            return Ok(await _userService.GetAllAsync());
         }
 
         /// <summary>

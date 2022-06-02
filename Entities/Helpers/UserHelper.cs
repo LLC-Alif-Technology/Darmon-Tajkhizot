@@ -18,7 +18,10 @@ namespace Entities.Helpers
             var key = Encoding.UTF8.GetBytes(secretKey);
             var tokenDescription = new SecurityTokenDescriptor()
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()) }),
+                Subject = new ClaimsIdentity(new[] {
+                    new Claim(ClaimTypes.Role, user.RoleId.ToString()),
+                    new Claim("id", user.Id.ToString())
+                }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 Audience = jwtSettings.GetSection("validAudience").Value,
                 Issuer = jwtSettings.GetSection("validIssuer").Value,

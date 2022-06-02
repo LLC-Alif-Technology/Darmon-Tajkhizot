@@ -34,8 +34,9 @@ namespace Repositories
         }).ToListAsync();
 
 
-        public async Task<Product> GetByIdAsync(Guid id, bool trackChanges) => await FindByCondition(x => x.Id.Equals(id), trackChanges).SingleOrDefaultAsync()
-            ?? throw new ExceptionWithStatusCode(HttpStatusCode.NotFound, "Продукт с таким ID не найден!");
+        public async Task<Product> GetByIdAsync(Guid id, bool trackChanges) => await FindByCondition(x => x.Id.Equals(id), trackChanges).FirstOrDefaultAsync();
+
+        public async Task<List<Product>> GetProductByCategory(Guid id) => await _context.Products.Where(x => x.CategoryId == id).ToListAsync();
 
     }
 }

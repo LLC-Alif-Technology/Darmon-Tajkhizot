@@ -11,5 +11,6 @@ namespace Contracts.Repositories
     {
         Task<List<GetAllProductsResponse>> GetAllAsync(bool trackChanges, string searchString);
         Task<Product> GetByIdAsync(Guid id, bool trackChanges);
+        Task<List<Product>> GetProductByCategory(Guid id);
     }
 }
