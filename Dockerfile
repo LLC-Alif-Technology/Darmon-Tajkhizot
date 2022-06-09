@@ -19,11 +19,11 @@ RUN dotnet restore --disable-parallel
 COPY . .
 WORKDIR "/src/Darmon Tajkhizot/"
 
-RUN dotnet publish -c Release -o /out --no-restore
+RUN dotnet publish -c Release -o /out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:5.0
 WORKDIR /app
 
 COPY --from=build-env /out ./
-ENTRYPOINT ["dotnet", "DarmonTajkhizot.dll"]
+ENTRYPOINT ["dotnet", "Darmon Tajkhizot.dll"]

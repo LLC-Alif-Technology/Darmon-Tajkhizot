@@ -4,11 +4,16 @@ services:
   darmontajkhizotapi:
     build: .
     ports:
-      - "5281:5281"
+      - "5000:5000"
+    image: "darmontajkhizot.api"
     container_name: 'darmontajkhizot.api'
+    env_file:
+      - .env
     networks:
       - darmontajkhizot-network
 
 networks:
-  darmontajkhizot-network: 
+  darmontajkhizot-network:
     driver: bridge
+
+
