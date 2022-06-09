@@ -11,9 +11,23 @@ services:
       - .env
     networks:
       - darmontajkhizot-network
+  db:
+    image: postgres:13
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - darmontajkhizot-data:/var/lib/postgresql/data
+    networks:
+      - darmontajkhizot-network
 
 networks:
   darmontajkhizot-network:
     driver: bridge
 
+volumes:
+  darmontajkhizot-data:
+    driver: local
 
