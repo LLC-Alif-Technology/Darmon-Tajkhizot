@@ -1,18 +1,29 @@
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build-env
-WORKDIR /Darmon Tajkhizot/
+WORKDIR /src
 
+ARG src="./Darmon Tajkhizot/*.csproj"
+ARG target="./Darmon Tajkhizot/"
 # Copy csproj and restore as distinct layers
-COPY . .
-WORKDIR /Darmon Tajkhizot/
+COPY *.sln .
+COPY ${src} ${target}
+COPY Contracts/*.csproj Contracts/
+COPY Entities/*.csproj Entities/
+COPY LoggerService/*.csproj LoggerService/
+COPY Repositories/*.csproj Repositories/
+COPY Services/*.csproj Services/
+COPY Tests/*.csproj Tests/
+
+RUN dotnet restore --disable-parallel
 
 # Copy everything else and build
-#COPY . .
-WORKDIR /Darmon Tajkhizot/
-RUN dotnet publish -c Debug -o out
+COPY . .
+WORKDIR "/src/Darmon Tajkhizot/"
+
+RUN dotnet publish -c Release -o /out --no-restore
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:5.0
-WORKDIR /api/
+WORKDIR /app
 
-COPY --from=build-env /Darmon Tajkhizot/out .
-ENTRYPOINT ["dotnet", "/DarmonTajkhizot.dll"]
+COPY --from=build-env /out ./
+ENTRYPOINT ["dotnet", "DarmonTajkhizot.dll"]
