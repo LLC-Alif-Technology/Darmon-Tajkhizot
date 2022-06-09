@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Entities.Enums;
+using Entities.DataTransferObjects.Product.Filtration;
+
 namespace Services
 {
     public class ProductService:IProductService
@@ -51,9 +53,9 @@ namespace Services
         //{
         //    return await _repositoryManager.ProductRepository.GetAllAsync(false, searchString);
         //}
-        public async Task<List<GetAllProductsResponse>> GetAllAsync(string searchString, int? pageNumber, int pagesize)
+        public async Task<List<GetAllProductsResponse>> GetAllAsync(ProductsFilterRequest request, int? pageNumber, int pagesize)
         {
-            var products = await _repositoryManager.ProductRepository.GetAllAsync(false,searchString);
+            var products = await _repositoryManager.ProductRepository.GetAllAsync(false,request);
             products = PaginatedList<GetAllProductsResponse>.Create(products.AsQueryable(), pageNumber ?? 1, pagesize);
             return products;
         }

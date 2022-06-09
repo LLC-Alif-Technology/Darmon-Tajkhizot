@@ -11,5 +11,7 @@ namespace Entities.DataTransferObjects.User
         public string LastName { get; set; }
         public string Address { get; set; }
         public string RoleName { get; set; }
+        public string Profession { get; set; }
+        public string PlaceOfWork { get; set; }
     }
 }

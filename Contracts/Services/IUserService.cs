@@ -16,6 +16,6 @@ namespace Contracts.Services
         Task SendResetPasswordRequestAsync(string email, string backUrl);
         Task<bool> ValidateRestorationTokenAsync(string email, string token);
         Task ChangePasswordAsync(UserPasswordResetRequest request);
-        Task<IEnumerable<GetAllUsersResponse>> GetAllAsync();
+        Task<IEnumerable<GetAllUsersResponse>> GetAllAsync(string searchString);
     }
 }

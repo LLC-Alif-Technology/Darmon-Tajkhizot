@@ -56,6 +56,9 @@ namespace Services
                 PhoneNumber = request.PhoneNumber,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
+                Address = request.Address,
+                PlaceOfWork = request.PlaceOfWork,
+                Profession = request.Profession,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password)
             };
 
@@ -137,7 +140,9 @@ namespace Services
                 Name = user.FirstName,
                 //Password = BCrypt.Net.BCrypt.HashPassword(request.Password),
                 Password = request.Password,
-                PhoneNumber = user.PhoneNumber
+                PhoneNumber = user.PhoneNumber,
+                PlaceOfWork = user.PlaceOfWork,
+                Profession = user.Profession
             });
             await _repositoryManager.SaveAsync();
         }
@@ -164,9 +169,9 @@ namespace Services
             return true;
         }
 
-        public async Task<IEnumerable<GetAllUsersResponse>> GetAllAsync()
+        public async Task<IEnumerable<GetAllUsersResponse>> GetAllAsync(string searchString)
         {
-            return await _repositoryManager.UserRepository.GetAllUsersAsync(false);
+            return await _repositoryManager.UserRepository.GetAllUsersAsync(false, searchString);
         }
     }
 }

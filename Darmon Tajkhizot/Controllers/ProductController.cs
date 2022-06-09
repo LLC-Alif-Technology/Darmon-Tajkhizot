@@ -1,5 +1,6 @@
 ﻿using Contracts.Services;
 using Entities.DataTransferObjects.Product;
+using Entities.DataTransferObjects.Product.Filtration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -30,9 +31,9 @@ namespace Darmon_Tajkhizot.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync(string searchString, int? pageindex, int pagesize)
+        public async Task<IActionResult> GetAllAsync([FromQuery]ProductsFilterRequest request, int? pageindex, int pagesize)
         {
-            return Ok(await _productService.GetAllAsync(searchString, pageindex, pagesize));
+            return Ok(await _productService.GetAllAsync(request, pageindex, pagesize));
         }
 
     }

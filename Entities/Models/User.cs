@@ -12,6 +12,8 @@ namespace Entities.Models
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
+        public string PlaceOfWork { get; set; }
+        public string Profession { get; set; }
         public Roles RoleId { get; set; }
         public virtual Role Role { get; set; }
     }

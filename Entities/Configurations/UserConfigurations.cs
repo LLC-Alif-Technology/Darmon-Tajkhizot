@@ -17,6 +17,8 @@ namespace Entities.Configurations
                 RoleId = Roles.Admin,
                 FirstName = "Abubakr",
                 LastName = "Nazirmadov",
+                PlaceOfWork = "test",
+                Profession = "test",
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword("Abubakr!@#$%^&*("),
                 PhoneNumber = "test"
             });

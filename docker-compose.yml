@@ -1,0 +1,14 @@
+version: '3'
+services:
+  darmontajkhizotapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5281:5281"
+    container_name: 'darmontajkhizot.api'
+    networks:
+      - darmontajkhizot-network
+networks:
+  darmontajkhizot-network: 
+    driver: bridge

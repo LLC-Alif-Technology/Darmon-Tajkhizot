@@ -3,15 +3,17 @@ using System;
 using Entities.DataContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Entities.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220603120644_Migration17")]
+    partial class Migration17
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,23 +47,6 @@ namespace Entities.Migrations
                     b.HasIndex("ParentCategoryId");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("Entities.Models.Description", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Descriptions");
                 });
 
             modelBuilder.Entity("Entities.Models.Product", b =>
@@ -223,12 +208,12 @@ namespace Entities.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7adbf970-3452-4ef9-8727-a2cf557ac251"),
+                            Id = new Guid("f2bebcf5-b644-4f05-9fe8-9a88e50f4de8"),
                             Address = "test",
                             Email = "user@example.com",
                             FirstName = "Abubakr",
                             LastName = "Nazirmadov",
-                            PasswordHash = "$2a$11$ZUjs6lstJ7AqX.xUEpXFkumgcwNgxRS8hSbeNpR3Av5S4lzIxXHtS",
+                            PasswordHash = "$2a$11$JKxhwX3FCe9VPnsoU3aXOuqsGCfkAeYXCoQCLovTo6tYbWkx2Y/7i",
                             PhoneNumber = "test",
                             PlaceOfWork = "test",
                             Profession = "test",

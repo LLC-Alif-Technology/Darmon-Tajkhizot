@@ -9,6 +9,7 @@ namespace Contracts.Repositories
         IRestorationTokenRepository RestorationTokenRepository { get; }
         IBannerRepository BannerRepository { get; }
         IProductRepository ProductRepository { get; }
+        IDescriptionRepository DescriptionRepository { get; }
         Task SaveAsync();
     }
 }

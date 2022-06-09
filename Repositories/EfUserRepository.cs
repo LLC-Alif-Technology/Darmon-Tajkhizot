@@ -24,7 +24,7 @@ namespace Repositories
         public async Task<bool> ExistsByEmail(string email) => await FindByCondition(x => x.Email.Equals(email), false).AsNoTracking().AnyAsync();
 
 
-        public async Task<List<GetAllUsersResponse>> GetAllUsersAsync(bool trackChanges) => await FindAll(trackChanges)
+        public async Task<List<GetAllUsersResponse>> GetAllUsersAsync(bool trackChanges, string searchString) => await FindAll(trackChanges).Where(x => string.IsNullOrWhiteSpace(searchString) || x.FirstName.Contains(searchString))
             .Select(x => new GetAllUsersResponse
             {
                 Id = x.Id,
@@ -33,7 +33,9 @@ namespace Repositories
                 FirstName = x.FirstName,
                 LastName = x.LastName,
                 Address = x.Address,
-                RoleName = EnumHelper.GetEnumDescription(x.RoleId)
+                RoleName = EnumHelper.GetEnumDescription(x.RoleId),
+                PlaceOfWork = x.PlaceOfWork,
+                Profession = x.Profession
             }).ToListAsync();
 
         public async Task<User> GetUserByEmailAsync(string email, bool trackChanges) => await FindByCondition(x => x.Email.Equals(email), trackChanges).FirstOrDefaultAsync();
@@ -60,7 +62,7 @@ namespace Repositories
             FirstName = x.FirstName,
             LastName = x.LastName,
             PhoneNumber = x.PhoneNumber,
-            Address = x.Address
+            Address = x.Address,
         }).SingleOrDefaultAsync() ?? throw new ExceptionWithStatusCode(HttpStatusCode.NotFound, "Пользователь с такой почтой не найден");
 
         public async Task<UserResponse> GetUserResponseByIdAsync(Guid id, bool trackChanges) => await FindByCondition(x => x.Id.Equals(id), trackChanges).Select(x => new UserResponse { 

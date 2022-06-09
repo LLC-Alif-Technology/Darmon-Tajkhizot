@@ -17,6 +17,15 @@ namespace Entities.DataTransferObjects.User.JWTAuthentication
         public string LastName { get; set; }
 
         [Required]
+        public string Address { get; set; }
+
+        [Required]
+        public string Profession { get; set; }
+
+        [Required]
+        public string PlaceOfWork { get; set; }
+
+        [Required]
         public string Password { get; set; }
     }
 }

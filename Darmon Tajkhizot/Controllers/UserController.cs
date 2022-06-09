@@ -50,9 +50,9 @@ namespace Darmon_Tajkhizot.Controllers
 
         [HttpGet("users")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = nameof(Roles.Admin) + ", "+ nameof(Roles.Manager))]
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetUsers(string searchString)
         {
-            return Ok(await _userService.GetAllAsync());
+            return Ok(await _userService.GetAllAsync(searchString));
         }
 
         /// <summary>

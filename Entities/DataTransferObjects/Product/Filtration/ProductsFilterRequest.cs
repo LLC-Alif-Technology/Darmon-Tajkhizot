@@ -11,5 +11,6 @@ namespace Entities.DataTransferObjects.Product.Filtration
         public Guid? CategoryId { get; set; }
         public double? MinPrice { get; set; }
         public double? MaxPrice { get; set; }
+        public List<Guid> Filters { get; set; } 
     }
 }

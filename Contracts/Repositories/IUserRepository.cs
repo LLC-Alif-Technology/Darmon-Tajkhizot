@@ -9,7 +9,7 @@ namespace Contracts.Repositories
     public interface IUserRepository : IRepositoryBase<User>
     {
         Task AddUserAsync(User user);
-        Task<List<GetAllUsersResponse>> GetAllUsersAsync(bool trackChanges);
+        Task<List<GetAllUsersResponse>> GetAllUsersAsync(bool trackChanges, string searchString);
         Task<User> GetUserByIdAsync(Guid id, bool trackChanges);
         Task<UserResponse> GetUserResponseByIdAsync(Guid id, bool trackChanges);
         Task<User> GetUserByEmailAsync(string email, bool trackChanges);

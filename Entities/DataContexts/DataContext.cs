@@ -17,6 +17,7 @@ namespace Entities.DataContexts
         public DbSet<RestorationToken> RestorationTokens { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Description> Descriptions { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new CategoryConfigurations());
