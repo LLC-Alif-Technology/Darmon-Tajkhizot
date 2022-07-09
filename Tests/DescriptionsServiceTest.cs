@@ -1,69 +1,44 @@
-﻿using Entities.DataContexts;
-using Entities.Models;
-using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
-using Repositories;
+﻿using Contracts.Repositories;
+using Moq;
 using Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Entities.DataTransferObjects.Description;
+using Xunit;
+
 
 namespace Tests
 {
     public class DescriptionsServiceTest
     {
-        private static DbContextOptions<DataContext> dbContextOptions = new DbContextOptionsBuilder<DataContext>().UseInMemoryDatabase(databaseName: "Darmon").Options;
-        DataContext context;
-        DescriptionService descriptionService;
+        private readonly DescriptionService _descriptionService;
+        private readonly Mock<IRepositoryManager> _repositoryManagerMock = new Mock<IRepositoryManager>();
 
-        [OneTimeSetUp]
-        public void Setup()
+        public DescriptionsServiceTest()
         {
-            context = new DataContext(dbContextOptions);
-            context.Database.EnsureCreated();
-            SeedDatabase();
+            _descriptionService = new DescriptionService(_repositoryManagerMock.Object);
         }
 
-        [OneTimeTearDown]
-        public void CleanUp()
+        [Fact]
+        public async Task GetByIdAsync_ShouldReturnDescription_WhenDescriptionExists()
         {
-            context.Database.EnsureDeleted();
-        }
-
-        private void SeedDatabase()
-        {
-            var descriptions = new List<Description>
+            //Arrange
+            var descriptionId = Guid.NewGuid();
+            var descriptionName = "test";
+            var descriptionText = "test";
+            var descriptionDto = new DescriptionResponse()
             {
-               new Description()
-               {
-                   Id = Guid.NewGuid(),
-                   Name = "Name1",
-                   Text = "Text1"
-               },
-               new Description()
-               {
-                   Id = Guid.NewGuid(),
-                   Name = "Name2",
-                   Text = "Text2"
-               }
+                Id = descriptionId,
+                Name = descriptionName,
+                Text = descriptionText
             };
-            context.Descriptions.AddRange(descriptions);
-            
-            //var categories = new List<Category>
-            //{
-            //    new Category()
-            //    {
-            //        Id = Guid.NewGuid(),
-            //        ImagePath = @"C:\Users\Faramush\Downloads\photo_2022-05-28_11-29-58.jpg",
+            _repositoryManagerMock.Setup(x => x.DescriptionRepository.GetDescription(descriptionId))
+                .ReturnsAsync(descriptionDto);
+            //Act
+            var description = await _descriptionService.GetDescription(descriptionId);
 
-            //    }
-
-            //};
-            
+            //Assert
+            Assert.Equal(descriptionId, description.Id);
         }
-
-
     }
 }
