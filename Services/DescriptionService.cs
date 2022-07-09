@@ -17,6 +17,24 @@ namespace Services
             _repositoryManager = repositoryManager;
         }
 
+        public async Task<Guid> CreateAsync(CreateDescriptionRequest request)
+        {
+            var description = new Description()
+            {
+                Id = Guid.NewGuid(),
+                Name = request.Name,
+                Text = request.Text
+            };
+            await _repositoryManager.DescriptionRepository.CreateAsync(description);
+            await _repositoryManager.SaveAsync();
+            return description.Id;
+        }
+
+        public async Task<IEnumerable<DescriptionResponse>> GetAllAsync()
+        {
+            return await _repositoryManager.DescriptionRepository.GetAllAsync(false);
+        }
+
         public async Task<DescriptionResponse> GetDescription(Guid id)
         {
             return await _repositoryManager.DescriptionRepository.GetDescription(id);
@@ -30,5 +48,7 @@ namespace Services
             _repositoryManager.DescriptionRepository.Update(description);
             await _repositoryManager.SaveAsync();
         }
+
+         
     }
 }

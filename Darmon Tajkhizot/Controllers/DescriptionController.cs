@@ -23,5 +23,17 @@ namespace Darmon_Tajkhizot.Controllers
             await _descriptionService.UpdateAsync(id, request);
             return NoContent();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromForm] CreateDescriptionRequest request)
+        {
+            return Ok(await _descriptionService.CreateAsync(request));  
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetDescriptions()
+        {
+            return Ok(await _descriptionService.GetAllAsync());
+        }
     }
 }

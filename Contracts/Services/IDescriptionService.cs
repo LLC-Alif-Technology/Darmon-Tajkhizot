@@ -10,5 +10,7 @@ namespace Contracts.Services
     {
         Task<DescriptionResponse> GetDescription(Guid id);
         Task UpdateAsync(Guid id, UpdateDescriptionRequest request);
+        Task<Guid> CreateAsync(CreateDescriptionRequest request);
+        Task<IEnumerable<DescriptionResponse>> GetAllAsync();
     }
 }

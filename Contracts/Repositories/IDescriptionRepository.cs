@@ -11,5 +11,6 @@ namespace Contracts.Repositories
     {
         Task<DescriptionResponse> GetDescription(Guid id);
         Task<Description> GetByIdAsync(Guid id, bool trackChanges);
+        Task<IEnumerable<DescriptionResponse>> GetAllAsync(bool trackChanges);
     }
 }

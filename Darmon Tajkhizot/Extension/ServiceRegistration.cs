@@ -26,7 +26,7 @@ namespace Darmon_Tajkhizot.Extension
                    .AllowAnyHeader()));
 
         public static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration) =>
-            services.AddDbContext<DataContext>(optionsAction => optionsAction.UseNpgsql(configuration.GetConnectionString("PostgresCS")).UseLazyLoadingProxies(false));
+            services.AddDbContext<DataContext>(optionsAction => optionsAction.UseNpgsql(configuration.GetConnectionString("CUSTOMCONNSTR_PostgresCS")).UseLazyLoadingProxies(false));
 
         public static void ConfigureLoggerService(this IServiceCollection services) =>
             services.AddScoped<ILoggerManager, LoggerManager>();

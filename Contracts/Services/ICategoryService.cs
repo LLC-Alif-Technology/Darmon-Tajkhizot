@@ -13,5 +13,6 @@ namespace Contracts.Services
         Task<Guid> CreateAsync(CreateCategoryRequest request);
         Task<Guid> DeleteByIdAsync(Guid id);
         Task UpdateAsync(Guid id, UpdateCategoryRequest request);
+
     }
 }
